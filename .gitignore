@@ -1,0 +1,6 @@
+receiver/db/*.sqlite3
+receiver/config/database.yml
+receiver/config/config.yml
+receiver/log/
+receiver/tmp/**/*
+receiver/tmp/autotest-flag

@@ -1,0 +1,6 @@
+Ressi contains tools for storing and analyzing data produced by SizzleLab's Aalto Social Interface (ASI) service platform (https://github.com/sizzlelab/asi)
+
+The git repository of Ressi contains many separate components:
+
+  * receiver - A Rails application to receive usage data from ASI and store it to DB
+

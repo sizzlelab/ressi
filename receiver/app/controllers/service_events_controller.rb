@@ -7,7 +7,12 @@ class ServiceEventsController < ApplicationController
     # TODO: Check the incoming data for nil values etc.
     
     # Converting parameter 'headers' to Ruby-style associative array
-    headers = JSON.parse(params[:service_event]["headers"])
+    begin
+      headers = JSON.parse(params[:service_event]["headers"])
+    rescue JSON::ParserError => e
+      Rails.logger.error "Encountered an error while parsing headers JSON. Ignoring headers for this event. #{e.message}"
+      headers = {"HTTP_USER_AGENT" => "unknown","REQUEST_URI" => "unknown", "HTTP_REFERER" => "unknown"}
+    end
     
     @service_event = ServiceEvent.new(:user_id => params[:service_event]["user_id"],
                               :application_id => params[:service_event]["application_id"],
