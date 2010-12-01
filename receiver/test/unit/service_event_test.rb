@@ -14,6 +14,7 @@ class ServiceEventTest < ActiveSupport::TestCase
       :http_user_agent => "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.0.5) Gecko/2008120121 Firefox/3.0.5", 
       :request_uri => "/people/bU8aHSBEKr3AhYaaWPEYjL/@pending_friend_requests", 
       :http_referer => "http://ossi.alpha.sizl.org/jsclient/v1/",
+      :test_group_number => 3,
       :created_at => Time.now - 4.hours
     )
 
