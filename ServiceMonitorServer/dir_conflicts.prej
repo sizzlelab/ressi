@@ -1,0 +1,8 @@
+Trying to change property 'svn:ignore' from 'build
+' to 'build
+dist
+',
+but the property has been locally changed from 'build
+' to 'build
+dist
+'.
