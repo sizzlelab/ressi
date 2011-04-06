@@ -1,16 +1,24 @@
+require 'bundler/capistrano'
 set :application, "ressi"
-set :repository,  "git://github.com/sizzlelab/ressi.git"
 
 set :scm, :git
-set :user, "cos"  # The server's user for deploys
-ssh_options[:forward_agent] = true
-
+set :repository,  "git://github.com/sizzlelab/ressi.git"
 set :deploy_via, :remote_cache
-set :deploy_to, "/var/datat/cos/ressi"
 
-set :server_name, "alpha"
-set :host, "alpha.sizl.org"
-set :branch, ENV['BRANCH'] || "master"
+if ENV['DEPLOY_ENV'] == "alpha" 
+  set :deploy_to, "/var/datat/cos/ressi"
+  set :server_name, "alpha"
+  set :host, "alpha.sizl.org"
+  set :user, "cos"
+  set :branch, ENV['BRANCH'] || "master"
+elsif ENV['DEPLOY_ENV'] == "alpha.aws"
+  set :deploy_to, "/opt/ressi.alpha"
+  set :server_name, "alpha"
+  set :host, "46.137.99.187"
+  set :user, "cos"
+  set :branch, ENV['BRANCH'] || "master"
+end
+
 
 role :app, host
 role :web, host
@@ -19,10 +27,6 @@ role :db, host, :primary => true
 set :rails_env, :production
 set :use_sudo, false
 
-# If you are using Passenger mod_rails uncomment this:
-# if you're still using the script/reapear helper you will need
-# these http://github.com/rails/irs_process_scripts
-
 namespace :deploy do
   task :start do ; end
   task :stop do ; end
@@ -30,8 +34,15 @@ namespace :deploy do
     run "#{try_sudo} touch #{File.join(current_path,'receiver/tmp','restart.txt')}"
   end
   
+  task :setup do
+    run "mkdir -p #{deploy_to}/releases"
+    %w(log config).each do |dir|
+      run "mkdir -p #{shared_path}/#{dir}"
+    end
+  end
+  
   task :symlinks_to_shared_path do
-    run "ln -nfs #{shared_path}/system/database.yml #{release_path}/receiver/config/database.yml"
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/receiver/config/database.yml"
     run "ln -nfs #{shared_path}/log #{release_path}/receiver/log"
     
   end

@@ -4,3 +4,4 @@ receiver/config/config.yml
 receiver/log/
 receiver/tmp/**/*
 receiver/tmp/autotest-flag
+receiver/.rvmrc
