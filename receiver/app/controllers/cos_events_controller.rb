@@ -4,10 +4,13 @@ class CosEventsController < ApplicationController
   before_filter :check_parameters_length
   
   def create
-    # TODO: Check the incoming data for nil values etc.
-    
+    # Check the incoming data for nil values etc.       
+    if params[:cos_event]["headers"].nil?
+          headers = {}
+        else
     # Converting parameter 'headers' to Ruby-style associative array
-    headers = JSON.parse(params[:cos_event]["headers"])
+      headers = JSON.parse(params[:cos_event]["headers"])
+    end
     
     @cos_event = CosEvent.new(:user_id => params[:cos_event]["user_id"],
                               :application_id => params[:cos_event]["application_id"],
